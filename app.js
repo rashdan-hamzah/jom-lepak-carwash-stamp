@@ -1,18 +1,19 @@
 const appState = {
   max: 10,
   collected: 0,
-  customerName: "AlmanHaziq",
-  customerId: "CRW-219700",
-  phone: "",
+  customerName: "Aiman Haziq",
+  customerId: "+60 12-345 6789",
+  phone: "+60 12-345 6789",
   memberStatus: "Active",
 };
 
 const flipCard = document.getElementById("flipCard");
 const cardStage = document.getElementById("cardStage");
 const claimButton = document.getElementById("claimButton");
+const claimStampButton = document.getElementById("claimStampButton");
 const redeemButton = document.getElementById("redeemButton");
-const customerNameInput = document.getElementById("customerName");
-const customerLookupInput = document.getElementById("customerLookup");
+const refreshButton = document.getElementById("refreshButton");
+const phoneNumberInput = document.getElementById("phoneNumber");
 const syncStatus = document.getElementById("syncStatus");
 const cardOwner = document.getElementById("cardOwner");
 const cardCustomerId = document.getElementById("cardCustomerId");
@@ -21,9 +22,6 @@ const stampCount = document.getElementById("stampCount");
 const collectedCount = document.getElementById("collectedCount");
 const remainingCount = document.getElementById("remainingCount");
 const completeCount = document.getElementById("completeCount");
-const sheetCount = document.getElementById("sheetCount");
-const focusButton = document.querySelector('[data-action="focus-demo"]');
-const sampleButton = document.querySelector('[data-action="fill-sample"]');
 const appConfig = window.CARWASH_CONFIG || {};
 const apiBaseUrl = String(appConfig.apiBaseUrl || "").replace(/\/$/, "");
 
@@ -55,22 +53,21 @@ function buildCustomerId(value) {
 }
 
 function resolveLookupQuery() {
-  const rawLookup = customerLookupInput.value.trim();
-  const rawName = customerNameInput.value.trim();
+  const rawPhone = phoneNumberInput.value.trim();
 
-  if (!rawLookup) {
-    return { customerName: rawName };
+  if (!rawPhone) {
+    return {};
   }
 
-  if (rawLookup.toLowerCase().startsWith("cust-")) {
-    return { customerId: rawLookup };
+  if (rawPhone.toLowerCase().startsWith("cust-")) {
+    return { customerId: rawPhone };
   }
 
-  if (/^\+?[0-9][0-9\s-]*$/.test(rawLookup)) {
-    return { phone: rawLookup };
+  if (/^\+?[0-9][0-9\s-]*$/.test(rawPhone)) {
+    return { phone: rawPhone };
   }
 
-  return { customerName: rawLookup };
+  return { phone: rawPhone };
 }
 
 function setSyncStatus(message) {
@@ -92,7 +89,6 @@ function renderStamps() {
   collectedCount.textContent = String(appState.collected);
   remainingCount.textContent = String(remaining);
   completeCount.textContent = `${complete}%`;
-  sheetCount.textContent = String(appState.collected);
   cardOwner.textContent = appState.customerName;
   cardCustomerId.textContent = appState.customerId;
   redeemButton.disabled = appState.collected < appState.max;
@@ -100,27 +96,24 @@ function renderStamps() {
 }
 
 function syncInputsFromState() {
-  customerNameInput.value = appState.customerName;
-  customerLookupInput.value = appState.phone || appState.customerId;
+  phoneNumberInput.value = appState.phone || appState.customerId;
 }
 
-function applyCustomer(customer, fallbackName) {
+function applyCustomer(customer) {
   if (!customer) {
-    appState.customerName = fallbackName || customerNameInput.value.trim() || appState.customerName;
-    appState.customerId = buildCustomerId(customerLookupInput.value.trim() || appState.customerName);
-    appState.phone = customerLookupInput.value.trim().includes("+") || /\d/.test(customerLookupInput.value.trim())
-      ? customerLookupInput.value.trim()
-      : "";
+    appState.phone = phoneNumberInput.value.trim();
+    appState.customerName = "New Customer";
+    appState.customerId = appState.phone || buildCustomerId(appState.customerName);
     appState.collected = 0;
     appState.memberStatus = "Active";
-    setSyncStatus("No existing record found. A new customer profile will be created on continue.");
+    setSyncStatus("No existing record found. Tap continue to create a new loyalty profile.");
     syncInputsFromState();
     renderStamps();
     return;
   }
 
-  appState.customerName = customer.customerName || fallbackName || appState.customerName;
-  appState.customerId = customer.customerId || buildCustomerId(appState.customerName);
+  appState.customerName = customer.customerName || appState.customerName;
+  appState.customerId = customer.phone || customer.customerId || buildCustomerId(appState.customerName);
   appState.phone = customer.phone || appState.phone;
   appState.collected = Number(customer.totalCollected) || 0;
   appState.max = Number(customer.totalStamps) || appState.max;
@@ -181,17 +174,8 @@ async function lookupCustomer() {
       return payload.customer;
     }
 
-    const fallbackCustomer = {
-      customerName: customerNameInput.value.trim() || appState.customerName,
-      customerId: buildCustomerId(identifier),
-      phone: customerLookupInput.value.trim(),
-      totalCollected: 0,
-      totalStamps: appState.max,
-      memberStatus: "Active",
-    };
-
-    applyCustomer(fallbackCustomer, fallbackCustomer.customerName);
-    return fallbackCustomer;
+    applyCustomer(null);
+    return null;
   } catch (error) {
     console.warn("Lookup failed.", error);
     setSyncStatus("Sheet lookup failed. You can still continue and sync later.");
@@ -219,9 +203,9 @@ async function persistStamp(memberStatus = "Active") {
 }
 
 async function claimStamp() {
+  appState.phone = phoneNumberInput.value.trim();
   await lookupCustomer();
   appState.collected = Math.min(appState.collected + 1, appState.max);
-  appState.customerName = customerNameInput.value.trim() || appState.customerName;
   renderStamps();
   flipCard.classList.add("flipped");
   setSyncStatus("Saving stamp to the sheet...");
@@ -236,6 +220,12 @@ async function claimStamp() {
     console.warn("Stamp sync failed. The UI stayed in sync locally.", error);
     setSyncStatus("Stamp saved locally. Sheet sync will retry on the next update.");
   }
+}
+
+async function loadCustomerCard() {
+  appState.phone = phoneNumberInput.value.trim();
+  await lookupCustomer();
+  flipCard.classList.remove("flipped");
 }
 
 async function redeemReward() {
@@ -262,45 +252,35 @@ async function hydrateFromSavedCustomer() {
   const savedCustomerName = localStorage.getItem("carwash.customerName");
   const savedCustomerPhone = localStorage.getItem("carwash.customerPhone");
 
-  if (savedCustomerId) {
-    customerLookupInput.value = savedCustomerPhone || savedCustomerId;
-    customerNameInput.value = savedCustomerName || customerNameInput.value;
+  if (savedCustomerPhone || savedCustomerId) {
+    phoneNumberInput.value = savedCustomerPhone || savedCustomerId;
     await lookupCustomer();
     return;
   }
 
   renderStamps();
-  setSyncStatus("Enter a name plus phone or customer ID to load the latest sheet record.");
+  setSyncStatus("Enter your phone number to load the latest sheet record.");
 }
 
 flipCard.addEventListener("click", () => {
   flipCard.classList.toggle("flipped");
 });
 
-claimButton.addEventListener("click", claimStamp);
-redeemButton.addEventListener("click", redeemReward);
-
-focusButton.addEventListener("click", () => {
-  cardStage.scrollIntoView({ behavior: "smooth", block: "center" });
-  flipCard.classList.add("flipped");
-});
-
-sampleButton.addEventListener("click", () => {
-  customerNameInput.value = "AlmanHaziq";
-  customerLookupInput.value = "cust-almanhaziq";
-  customerNameInput.focus();
-  setSyncStatus("Sample customer loaded into the form.");
-});
-
-customerNameInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    claimStamp();
+flipCard.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    flipCard.classList.toggle("flipped");
   }
 });
 
-customerLookupInput.addEventListener("keydown", (event) => {
+claimButton.addEventListener("click", loadCustomerCard);
+claimStampButton.addEventListener("click", claimStamp);
+redeemButton.addEventListener("click", redeemReward);
+refreshButton.addEventListener("click", loadCustomerCard);
+
+phoneNumberInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    lookupCustomer();
+    loadCustomerCard();
   }
 });
 
