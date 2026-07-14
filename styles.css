@@ -494,8 +494,9 @@ input:focus {
 }
 
 .card-stage.expanded .flip-card {
-  height: 100%;
-  aspect-ratio: auto;
+    width: 100%;
+    min-height: 620px; /* adjust if needed */
+    aspect-ratio: auto;
 }
 
 .card-stage.expanded .flip-card-inner,
