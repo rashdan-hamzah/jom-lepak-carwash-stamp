@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carwash Stamp</title>
+    <meta
+      name="description"
+      content="A premium digital stamp loyalty experience for carwash businesses."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      window.CARWASH_CONFIG = {
+        apiBaseUrl: "https://carwashstamp.rewardfave.workers.dev",
+      };
+    </script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero-copy">
+        <div class="eyebrow">Carwash loyalty system</div>
+        <h1>Digital stamp rewards with an Apple-style finish.</h1>
+        <p>
+          Claim, flip, and track loyalty stamps in a smooth customer-facing UI while Google Sheets stays
+          synced in the background for administration.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-button" data-action="focus-demo">Preview the flow</button>
+          <button class="secondary-button" data-action="fill-sample">Load sample customer</button>
+        </div>
+        <ul class="feature-list">
+          <li>Cloudflare Worker API gateway</li>
+          <li>Google Apps Script bridge to Sheets</li>
+          <li>Flip-card loyalty progress UI</li>
+        </ul>
+      </section>
+
+      <section class="device-stage" aria-label="Loyalty flow preview">
+        <article class="phone phone-left">
+          <div class="phone-chrome">
+            <div class="status-bar">
+              <span>12:16</span>
+              <span>5G</span>
+            </div>
+            <div class="claim-panel glass-panel">
+              <div class="badge-icon">*</div>
+              <h2>Claim Your Stamp</h2>
+              <p>Join our loyalty program and start earning rewards.</p>
+              <div class="pager-dots" aria-hidden="true">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+              </div>
+              <label class="field-label" for="customerName">Your name</label>
+              <input id="customerName" name="customerName" type="text" placeholder="Enter your first name" />
+              <label class="field-label" for="customerLookup">Phone or customer ID</label>
+              <input
+                id="customerLookup"
+                name="customerLookup"
+                type="text"
+                placeholder="Use phone or loyalty ID for repeat visits"
+              />
+              <button class="cta-button" id="claimButton">Continue</button>
+              <button class="ghost-button">I'm a returning customer</button>
+              <div class="sync-status" id="syncStatus">Loading customer record from Sheets...</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="phone phone-center">
+          <div class="phone-chrome">
+            <div class="status-bar">
+              <span>12:17</span>
+              <span>5G</span>
+            </div>
+            <div class="card-stage" id="cardStage">
+              <button class="flip-card" id="flipCard" aria-live="polite" aria-label="Loyalty card. Tap to flip.">
+                <div class="flip-card-inner">
+                  <div class="flip-face flip-front">
+                    <div class="card-top">
+                      <div>
+                        <div class="brand-name">OrderSap</div>
+                        <div class="card-subtitle">Loyalty Card</div>
+                      </div>
+                      <div class="card-chip">[]</div>
+                    </div>
+                    <div class="card-owner" id="cardOwner">AlmanHaziq</div>
+                    <div class="card-footer-row">
+                      <div>
+                        <div class="mini-label">ID</div>
+                        <div class="mini-value" id="cardCustomerId">CRW-219700</div>
+                      </div>
+                      <div class="stamps-count">
+                        <div class="count-number" id="stampCount">0</div>
+                        <div class="mini-label">stamps</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flip-face flip-back">
+                    <div class="progress-header">
+                      <div>
+                        <div class="brand-name">Loyalty Progress</div>
+                        <div class="card-subtitle">Premium Member - OrderSap</div>
+                      </div>
+                      <div class="close-pill">x</div>
+                    </div>
+                    <div class="progress-stats">
+                      <div><strong id="collectedCount">0</strong><span>Collected</span></div>
+                      <div><strong id="remainingCount">10</strong><span>Remaining</span></div>
+                      <div><strong id="completeCount">0%</strong><span>Complete</span></div>
+                    </div>
+                    <div class="stamp-grid" id="stampGrid" aria-label="Stamp progress grid"></div>
+                    <button class="cta-button" id="redeemButton" type="button">Redeem reward</button>
+                  </div>
+                </div>
+              </button>
+              <div class="card-hint">Tap the card to flip between the loyalty card and progress view.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="phone phone-right">
+          <div class="phone-chrome">
+            <div class="status-bar">
+              <span>12:17</span>
+              <span>5G</span>
+            </div>
+            <div class="admin-panel glass-panel">
+              <div class="panel-title">Admin sync</div>
+              <p>Google Sheets receives each stamp event through Cloudflare Worker and Apps Script.</p>
+              <div class="sync-card">
+                <span class="sync-dot"></span>
+                Live sheet mirror
+              </div>
+              <div class="sheet-preview">
+                <div class="sheet-row header"><span>Name</span><span>Stamps</span><span>Status</span></div>
+                <div class="sheet-row"><span>AlmanHaziq</span><span id="sheetCount">0</span><span>Active</span></div>
+                <div class="sheet-row"><span>Orders</span><span>24</span><span>Synced</span></div>
+                <div class="sheet-row"><span>Admin</span><span>-</span><span>Ready</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
