@@ -7,6 +7,8 @@ const appState = {
   memberStatus: "Active",
 };
 
+let typingShakeTimer = null;
+
 const flipCard = document.getElementById("flipCard");
 const cardStage = document.getElementById("cardStage");
 const claimButton = document.getElementById("claimButton");
@@ -24,6 +26,7 @@ const remainingCount = document.getElementById("remainingCount");
 const completeCount = document.getElementById("completeCount");
 const appConfig = window.CARWASH_CONFIG || {};
 const apiBaseUrl = String(appConfig.apiBaseUrl || "").replace(/\/$/, "");
+const mobileCardQuery = window.matchMedia("(max-width: 720px)");
 
 function apiUrl(path, params) {
   const basePath = `${apiBaseUrl}${path}`;
@@ -74,6 +77,40 @@ function setSyncStatus(message) {
   syncStatus.textContent = message;
 }
 
+function triggerTypingShake() {
+  phoneNumberInput.classList.add("is-typing");
+  window.clearTimeout(typingShakeTimer);
+  typingShakeTimer = window.setTimeout(() => {
+    phoneNumberInput.classList.remove("is-typing");
+  }, 180);
+}
+
+function syncExpandedCardState() {
+  cardStage.classList.toggle("expanded", flipCard.classList.contains("flipped") && mobileCardQuery.matches);
+}
+
+function updateCardShine(event) {
+  const rect = flipCard.getBoundingClientRect();
+
+  if (!rect.width || !rect.height) {
+    return;
+  }
+
+  const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+  const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+
+  flipCard.style.setProperty("--shine-x", `${x.toFixed(1)}%`);
+  flipCard.style.setProperty("--shine-y", `${y.toFixed(1)}%`);
+  flipCard.style.setProperty("--shine-opacity", "0.42");
+  flipCard.classList.add("card-ready");
+}
+
+function resetCardShine() {
+  flipCard.style.setProperty("--shine-x", "50%");
+  flipCard.style.setProperty("--shine-y", "40%");
+  flipCard.style.setProperty("--shine-opacity", "0.16");
+}
+
 function renderStamps() {
   stampGrid.innerHTML = "";
   for (let index = 0; index < appState.max; index += 1) {
@@ -93,6 +130,7 @@ function renderStamps() {
   cardCustomerId.textContent = appState.customerId;
   redeemButton.disabled = appState.collected < appState.max;
   redeemButton.textContent = appState.collected >= appState.max ? "Redeem reward" : "Collect more stamps";
+  flipCard.classList.add("card-ready");
 }
 
 function syncInputsFromState() {
@@ -208,6 +246,7 @@ async function claimStamp() {
   appState.collected = Math.min(appState.collected + 1, appState.max);
   renderStamps();
   flipCard.classList.add("flipped");
+  syncExpandedCardState();
   setSyncStatus("Saving stamp to the sheet...");
 
   try {
@@ -226,6 +265,7 @@ async function loadCustomerCard() {
   appState.phone = phoneNumberInput.value.trim();
   await lookupCustomer();
   flipCard.classList.remove("flipped");
+  syncExpandedCardState();
 }
 
 async function redeemReward() {
@@ -264,27 +304,37 @@ async function hydrateFromSavedCustomer() {
 
 flipCard.addEventListener("click", () => {
   flipCard.classList.toggle("flipped");
+  syncExpandedCardState();
 });
 
 flipCard.addEventListener("keydown", (event) => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     flipCard.classList.toggle("flipped");
+    syncExpandedCardState();
   }
 });
+
+flipCard.addEventListener("pointermove", updateCardShine);
+flipCard.addEventListener("pointerleave", resetCardShine);
 
 claimButton.addEventListener("click", loadCustomerCard);
 claimStampButton.addEventListener("click", claimStamp);
 redeemButton.addEventListener("click", redeemReward);
 refreshButton.addEventListener("click", loadCustomerCard);
 
+phoneNumberInput.addEventListener("input", triggerTypingShake);
 phoneNumberInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     loadCustomerCard();
   }
 });
 
+window.addEventListener("resize", syncExpandedCardState);
+
 (async function initialize() {
   await fetchConfig();
   await hydrateFromSavedCustomer();
+  syncExpandedCardState();
+  resetCardShine();
 })();
