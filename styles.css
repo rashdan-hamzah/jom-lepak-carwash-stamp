@@ -538,8 +538,8 @@ input:focus {
 }
 
 .card-stage.expanded .flip-card {
-    width: 100%;
-    min-height: 620px; /* adjust if needed */
+    width: 75%;
+    min-height: 600px; /* adjust if needed */
     aspect-ratio: auto;
 }
 
