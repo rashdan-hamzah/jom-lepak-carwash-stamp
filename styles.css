@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
-  --bg: #f7e6c7;
-  --bg-deep: #e9c987;
+  --bg-dark: #100e09;
+  --bg-warm: #ecd29a;
   --panel: rgba(255, 255, 255, 0.82);
   --panel-strong: rgba(255, 255, 255, 0.94);
   --ink: #2c2217;
@@ -29,17 +29,18 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.68), transparent 28%),
-    radial-gradient(circle at top right, rgba(255, 227, 165, 0.72), transparent 30%),
-    linear-gradient(180deg, #f5e8d0 0%, #efd5a4 100%);
+    radial-gradient(circle at top center, rgba(0, 0, 0, 0.86), transparent 28%),
+    radial-gradient(circle at top left, rgba(255, 226, 144, 0.48), transparent 26%),
+    radial-gradient(circle at top right, rgba(255, 215, 94, 0.3), transparent 28%),
+    linear-gradient(180deg, var(--bg-dark) 0%, #20170d 22%, var(--bg-warm) 100%);
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 80%);
   pointer-events: none;
@@ -65,9 +66,9 @@ body::before {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  color: #876026;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  color: #f4cd6e;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -82,12 +83,14 @@ body::before {
 
 .customer-intro h1 {
   margin: 18px 0 14px;
-  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   line-height: 0.95;
   letter-spacing: -0.06em;
   max-width: 13ch;
   margin-left: auto;
   margin-right: auto;
+  color: #fff5dd;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.32), 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 
 .customer-intro p {
@@ -95,51 +98,15 @@ body::before {
   max-width: 42ch;
   font-size: 1.08rem;
   line-height: 1.65;
-  color: var(--muted);
+  color: rgba(255, 244, 214, 0.74);
   margin-left: auto;
   margin-right: auto;
-}
-
-.primary-button,
-.secondary-button,
-.cta-button,
-.ghost-button,
-.flip-card {
-  border: 0;
-  font: inherit;
-}
-
-.primary-button,
-.secondary-button {
-  padding: 14px 18px;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.primary-button {
-  color: #fff;
-  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
-  box-shadow: 0 14px 32px rgba(224, 141, 16, 0.28);
-}
-
-.secondary-button {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(103, 72, 17, 0.14);
-}
-
-.device-stage {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  align-items: center;
 }
 
 .phone {
   border-radius: 42px;
   padding: 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.2));
+  background: linear-gradient(180deg, rgba(255, 250, 239, 0.52), rgba(255, 244, 220, 0.18));
   box-shadow: var(--shadow);
   min-height: auto;
   backdrop-filter: blur(16px);
@@ -155,7 +122,7 @@ body::before {
   height: 100%;
   border-radius: 32px;
   padding: 18px 16px 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(246, 218, 167, 0.3));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(246, 218, 167, 0.28));
   position: relative;
   overflow: hidden;
 }
@@ -166,7 +133,7 @@ body::before {
   inset: auto 14px 14px 14px;
   height: 90px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 68%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 68%);
   pointer-events: none;
 }
 
@@ -180,7 +147,6 @@ body::before {
 }
 
 .glass-panel,
-.admin-panel,
 .claim-panel {
   border-radius: var(--radius-xl);
   background: var(--panel);
@@ -194,30 +160,54 @@ body::before {
   min-height: auto;
 }
 
-.badge-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 20px;
+.logo-placeholder {
+  width: 104px;
+  height: 76px;
+  border-radius: 22px;
   margin: 0 auto 24px;
   display: grid;
   place-items: center;
-  font-size: 1.6rem;
-  color: var(--gold-deep);
-  background: linear-gradient(135deg, rgba(255, 237, 185, 0.94), rgba(255, 187, 60, 0.38));
+  border: 1px solid rgba(119, 76, 11, 0.12);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.96), rgba(255, 232, 171, 0.9) 42%, rgba(245, 177, 56, 0.52) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 16px 26px rgba(178, 120, 16, 0.12);
+}
+
+.logo-placeholder span {
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #3d2a0e;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .claim-panel h2,
 .panel-title,
 .brand-name {
   margin: 0;
-  font-size: 1.06rem;
+  font-size: 1.08rem;
   font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.22), 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.claim-panel h2,
+.flip-front .brand-name {
+  color: #fff6d8;
+}
+
+.flip-back .brand-name {
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .claim-panel p,
 .card-subtitle,
-.admin-panel p,
-.card-hint {
+.card-hint,
+.sync-status,
+.progress-header .card-subtitle {
   color: var(--muted);
 }
 
@@ -225,24 +215,6 @@ body::before {
   margin: 10px auto 16px;
   max-width: 21ch;
   line-height: 1.55;
-}
-
-.pager-dots {
-  display: flex;
-  justify-content: center;
-  gap: 9px;
-  margin: 10px 0 26px;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(140, 113, 77, 0.24);
-}
-
-.dot.active {
-  background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
 }
 
 .field-label {
@@ -268,6 +240,10 @@ input {
   box-shadow: inset 0 1px 6px rgba(182, 139, 44, 0.08);
 }
 
+input.is-typing {
+  animation: phoneShake 180ms ease-in-out;
+}
+
 input:focus {
   border-color: rgba(224, 141, 16, 0.72);
   box-shadow: 0 0 0 4px rgba(247, 178, 59, 0.18);
@@ -281,6 +257,7 @@ input:focus {
   border-radius: 18px;
   cursor: pointer;
   font-weight: 700;
+  border: 1px solid transparent;
 }
 
 .cta-button {
@@ -292,7 +269,7 @@ input:focus {
 .ghost-button {
   color: rgba(91, 69, 39, 0.88);
   background: rgba(255, 255, 255, 0.52);
-  border: 1px solid rgba(130, 94, 35, 0.08);
+  border-color: rgba(130, 94, 35, 0.08);
 }
 
 .sync-status {
@@ -313,6 +290,18 @@ input:focus {
   margin-top: 16px;
 }
 
+.card-stage.expanded {
+  position: fixed;
+  inset: 10px;
+  margin: 0;
+  z-index: 50;
+  padding: 0;
+  border-radius: 34px;
+  background: rgba(19, 15, 10, 0.78);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.28);
+}
+
 .flip-card {
   width: 100%;
   aspect-ratio: 1 / 1.12;
@@ -321,6 +310,28 @@ input:focus {
   background: transparent;
   cursor: pointer;
   padding: 0;
+  position: relative;
+  --shine-x: 50%;
+  --shine-y: 40%;
+  --shine-opacity: 0.16;
+}
+
+.flip-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--shine-opacity);
+  background:
+    radial-gradient(circle at var(--shine-x) var(--shine-y), rgba(255, 255, 255, 0.45), transparent 22%),
+    linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, 0.42) 48%, transparent 60%);
+  mix-blend-mode: screen;
+  transform: translateZ(1px);
+}
+
+.flip-card.card-ready::after {
+  animation: cardShine 4.8s ease-in-out infinite;
 }
 
 .flip-card-inner {
@@ -351,8 +362,8 @@ input:focus {
 .flip-front {
   color: white;
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.44), transparent 24%),
-    linear-gradient(145deg, #ffcc67 0%, #ef9f24 45%, #db7f07 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 24%),
+    linear-gradient(145deg, #ffd15a 0%, #f0a723 45%, #c97705 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
@@ -383,6 +394,9 @@ input:focus {
 
 .card-subtitle {
   font-size: 0.82rem;
+}
+
+.flip-front .card-subtitle {
   color: rgba(255, 255, 255, 0.75);
 }
 
@@ -391,6 +405,7 @@ input:focus {
   font-weight: 800;
   letter-spacing: -0.04em;
   margin-top: 6px;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .mini-label {
@@ -414,10 +429,6 @@ input:focus {
   font-size: 2.4rem;
   font-weight: 800;
   line-height: 0.95;
-}
-
-.progress-header .card-subtitle {
-  color: var(--muted);
 }
 
 .progress-stats {
@@ -474,8 +485,62 @@ input:focus {
   text-align: center;
 }
 
+.card-stage.expanded .card-hint {
+  display: none;
+}
+
+.card-stage.expanded .flip-card {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.card-stage.expanded .flip-card-inner,
+.card-stage.expanded .flip-face {
+  height: 100%;
+}
+
+.card-stage.expanded .flip-face {
+  border-radius: 32px;
+  padding: 20px;
+}
+
+.card-stage.expanded .stamp-grid {
+  gap: 12px;
+}
+
 #redeemButton {
   margin-top: 14px;
+}
+
+@keyframes phoneShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-1px);
+  }
+  40% {
+    transform: translateX(1px);
+  }
+  60% {
+    transform: translateX(-0.8px);
+  }
+  80% {
+    transform: translateX(0.8px);
+  }
+}
+
+@keyframes cardShine {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translateX(-2%);
+  }
+  50% {
+    opacity: 0.42;
+    transform: translateX(2%);
+  }
 }
 
 @keyframes floatIn {
@@ -493,10 +558,6 @@ input:focus {
   .page-shell {
     grid-template-columns: 1fr;
     width: min(560px, calc(100% - 20px));
-  }
-
-  .device-stage {
-    grid-template-columns: 1fr;
   }
 
   .phone,
@@ -518,7 +579,6 @@ input:focus {
   }
 
   .claim-panel,
-  .admin-panel,
   .card-stage,
   .phone {
     min-height: auto;
@@ -536,8 +596,19 @@ input:focus {
     grid-template-columns: 1fr;
   }
 
-  .sheet-row {
-    grid-template-columns: 1.2fr 0.6fr 0.8fr;
-    font-size: 0.86rem;
+  .card-stage.expanded {
+    inset: 8px;
+    padding: 10px;
+  }
+
+  .card-stage.expanded .flip-card {
+    height: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover::after,
+  .flip-card:focus-visible::after {
+    --shine-opacity: 0.34;
   }
 }
