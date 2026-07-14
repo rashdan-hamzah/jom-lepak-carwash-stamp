@@ -148,6 +148,8 @@ body::before {
 
 .glass-panel,
 .claim-panel {
+  width: min(440px, 100%);
+  margin-inline: auto;
   border-radius: var(--radius-xl);
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.72);
@@ -283,6 +285,8 @@ input:focus {
 }
 
 .card-stage {
+  width: min(440px, 100%);
+  margin-inline: auto;
   min-height: auto;
   display: grid;
   align-content: center;
