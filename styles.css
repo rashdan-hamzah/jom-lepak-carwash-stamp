@@ -160,22 +160,38 @@ body::before {
   padding: 26px 18px 18px;
   text-align: center;
   min-height: auto;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(25,25,25,.95),
+      rgba(12,12,12,.92)
+    );
+
+  border: 1px solid rgba(247,178,59,.25);
+
+  color: white;
 }
 
 .logo-placeholder {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 24px;
+  width: 180px;
+  margin: 0 auto 30px;
 
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .logo-image {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  display: block;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(247, 178, 59, 0.18);
 }
 
 .claim-panel h2,
@@ -186,12 +202,12 @@ body::before {
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.22), 0 8px 18px rgba(0, 0, 0, 0.18);
+  text-shadow: none;
 }
 
 .claim-panel h2,
 .flip-front .brand-name {
-  color: #fff6d8;
+  color: #FFD15A;
 }
 
 .flip-back .brand-name {
@@ -211,6 +227,7 @@ body::before {
   margin: 10px auto 16px;
   max-width: 21ch;
   line-height: 1.55;
+  color: #b8b8b8;
 }
 
 .field-label {
@@ -221,7 +238,7 @@ body::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 800;
-  color: rgba(89, 63, 27, 0.72);
+  color: #FFD15A;
 }
 
 input {
@@ -229,11 +246,16 @@ input {
   margin: 0 8px;
   padding: 16px 16px;
   border-radius: 18px;
-  border: 1px solid rgba(228, 166, 52, 0.32);
+  border: 1px solid rgba(247,178,59,.25);
   outline: none;
   font: inherit;
-  background: rgba(255, 255, 255, 0.95);
+  color: white;
+  background: #191919;
   box-shadow: inset 0 1px 6px rgba(182, 139, 44, 0.08);
+}
+
+input::placeholder {
+  color: #777;
 }
 
 input.is-typing {
@@ -258,7 +280,11 @@ input:focus {
 
 .cta-button {
   color: white;
-  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  background: linear-gradient(
+  135deg,
+  #FFC63B,
+  #E08D10
+);
   box-shadow: 0 16px 28px rgba(226, 145, 21, 0.24);
 }
 
@@ -272,8 +298,9 @@ input:focus {
   margin: 12px 12px 0;
   padding: 10px 14px;
   border-radius: 14px;
-  background: rgba(255, 248, 233, 0.92);
-  color: rgba(111, 85, 44, 0.88);
+  background: #171717;
+  border: 1px solid rgba(247,178,59,.15);
+  color: #d8d8d8;
   font-size: 0.84rem;
   line-height: 1.45;
 }
