@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carwash Stamp</title>
+    <title>JLCW Stamp</title>
     <meta
       name="description"
-      content="A premium digital stamp loyalty experience for carwash businesses."
+      content="JLCW digital stamp loyalty for carwash customers."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,12 +26,9 @@
     <main class="page-shell customer-page">
       <section class="customer-stage" aria-label="Customer loyalty page">
         <div class="customer-intro">
-          <div class="eyebrow">Carwash loyalty system</div>
-          <h1>Check your loyalty progress with your phone number.</h1>
-          <p>
-            Enter your phone number to load your personal stamp card, then flip it to see your progress.
-            Google Sheets stays as the source of truth.
-          </p>
+          <div class="eyebrow">JLCW loyalty</div>
+          <h1>JLCW stamp progress.</h1>
+          <p>Enter your phone number to view your card.</p>
         </div>
 
         <article class="phone phone-center">
@@ -41,13 +38,11 @@
               <span>5G</span>
             </div>
             <div class="claim-panel glass-panel">
-              <div class="badge-icon">*</div>
+              <div class="logo-placeholder" aria-hidden="true">
+                <span>JLCW</span>
+              </div>
               <h2>Check Your Stamp</h2>
               <p>Enter your phone number to load your loyalty card.</p>
-              <div class="pager-dots" aria-hidden="true">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-              </div>
               <label class="field-label" for="phoneNumber">Phone number</label>
               <input
                 id="phoneNumber"
@@ -57,7 +52,6 @@
                 placeholder="Enter your phone number"
               />
               <button class="cta-button" id="claimButton">View my card</button>
-              <button class="ghost-button">I'm a returning customer</button>
               <div class="sync-status" id="syncStatus">Enter your phone number to view your latest progress.</div>
             </div>
 
@@ -74,7 +68,7 @@
                   <div class="flip-face flip-front">
                     <div class="card-top">
                       <div>
-                        <div class="brand-name">OrderSap</div>
+                        <div class="brand-name">JLCW</div>
                         <div class="card-subtitle">Loyalty Card</div>
                       </div>
                       <div class="card-chip">[]</div>
@@ -94,8 +88,8 @@
                   <div class="flip-face flip-back">
                     <div class="progress-header">
                       <div>
-                        <div class="brand-name">Loyalty Progress</div>
-                        <div class="card-subtitle">Premium Member - OrderSap</div>
+                        <div class="brand-name">JLCW</div>
+                        <div class="card-subtitle">Premium Member</div>
                       </div>
                       <div class="close-pill">x</div>
                     </div>
