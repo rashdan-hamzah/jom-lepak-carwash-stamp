@@ -328,7 +328,8 @@ input:focus {
 }
 
 .flip-card {
-  width: 100%;
+  width: min(360px, 100%);
+  margin: 0 auto;
   aspect-ratio: 1 / 1.12;
   perspective: 1800px;
   border-radius: 28px;
@@ -374,7 +375,7 @@ input:focus {
 .flip-face {
   position: absolute;
   inset: 0;
-  border-radius: 28px;
+  border-radius: 32px;
   padding: 18px;
   backface-visibility: hidden;
   overflow: hidden;
@@ -387,9 +388,40 @@ input:focus {
 .flip-front {
   color: white;
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 24%),
-    linear-gradient(145deg, #ffd15a 0%, #f0a723 45%, #c97705 100%);
+radial-gradient(
+circle at top left,
+rgba(255,255,255,.18),
+transparent 26%
+),
+
+linear-gradient(
+160deg,
+#FFE08A 0%,
+#F4B63B 18%,
+#D89218 55%,
+#8E5606 100%
+);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.flip-front::before{
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+
+linear-gradient(
+120deg,
+transparent 20%,
+rgba(255,255,255,.08) 48%,
+transparent 70%
+);
+
+pointer-events:none;
 }
 
 .flip-back {
@@ -414,16 +446,40 @@ input:focus {
   padding-bottom: 4px;
 }
 
-.card-chip,
+.card-chip {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  background: linear-gradient(
+    145deg,
+    #FDE7A2,
+    #E2A323,
+    #B97809
+  );
+
+  color: #4a3205;
+  font-weight: 800;
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.45),
+    0 6px 18px rgba(226,163,35,.28);
+}
+
 .close-pill {
   width: 38px;
   height: 38px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(248, 243, 236, 0.9);
-  color: var(--muted);
-  font-weight: 800;
+
+  background: rgba(255,255,255,.95);
+  color: #666;
+  font-weight: 700;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
 }
 
 .card-subtitle {
@@ -435,8 +491,8 @@ input:focus {
 }
 
 .card-owner {
-  font-size: clamp(1.9rem, 4vw, 2.5rem);
-  font-weight: 800;
+  font-size: clamp(2.2rem,5vw,2.8rem);
+  font-weight: 700;
   letter-spacing: -0.04em;
   margin-top: 6px;
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.12);
