@@ -1,9 +1,9 @@
 const appState = {
   max: 10,
   collected: 0,
-  customerName: "Aiman Haziq",
-  customerId: "+60 12-345 6789",
-  phone: "+60 12-345 6789",
+  customerName: "",
+  customerId: "",
+  phone: "",
   memberStatus: "Active",
 };
 
