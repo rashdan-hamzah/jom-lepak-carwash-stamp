@@ -173,7 +173,7 @@ body::before {
   color: white;
 }
 
-..logo-placeholder {
+.logo-placeholder {
   width: 120px;
   aspect-ratio: 1;
 
