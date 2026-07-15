@@ -336,10 +336,13 @@ flipCard.addEventListener("keydown", (event) => {
 flipCard.addEventListener("pointermove", updateCardShine);
 flipCard.addEventListener("pointerleave", resetCardShine);
 
-claimButton.addEventListener("click", loadCustomerCard);
-claimStampButton.addEventListener("click", claimStamp);
-redeemButton.addEventListener("click", redeemReward);
-refreshButton.addEventListener("click", loadCustomerCard);
+claimButton?.addEventListener("click", loadCustomerCard);
+
+claimStampButton?.addEventListener("click", claimStamp);
+
+redeemButton?.addEventListener("click", redeemReward);
+
+refreshButton?.addEventListener("click", loadCustomerCard);
 
 phoneNumberInput.addEventListener("input", triggerTypingShake);
 phoneNumberInput.addEventListener("keydown", (event) => {
