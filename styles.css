@@ -173,25 +173,34 @@ body::before {
   color: white;
 }
 
-.logo-placeholder {
-  width: 180px;
+..logo-placeholder {
+  width: 120px;
+  aspect-ratio: 1;
+
   margin: 0 auto 30px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  overflow: hidden;
+  border-radius: 28px;
+
+  background: #111;
+
+  border: 2px solid rgba(247, 178, 59, 0.25);
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(247, 178, 59, 0.18);
 }
 
 .logo-image {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
 
-  border-radius: 16px;
-
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.35),
-    0 0 18px rgba(247, 178, 59, 0.18);
+  object-fit: cover;
 }
 
 .claim-panel h2,
