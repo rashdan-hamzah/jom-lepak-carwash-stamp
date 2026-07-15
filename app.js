@@ -78,11 +78,29 @@ function setSyncStatus(message) {
 }
 
 function triggerTypingShake() {
+
+  phoneNumberInput.classList.remove("is-typing");
+
+  void phoneNumberInput.offsetWidth;
+
   phoneNumberInput.classList.add("is-typing");
+
+  const panel=document.querySelector(".claim-panel");
+
+  panel.style.transform="translateY(-1px)";
+  panel.style.boxShadow="0 22px 60px rgba(247,178,59,.16)";
+
   window.clearTimeout(typingShakeTimer);
-  typingShakeTimer = window.setTimeout(() => {
-    phoneNumberInput.classList.remove("is-typing");
-  }, 180);
+
+  typingShakeTimer=window.setTimeout(()=>{
+
+      phoneNumberInput.classList.remove("is-typing");
+
+      panel.style.transform="";
+      panel.style.boxShadow="";
+
+  },220);
+
 }
 
 function syncExpandedCardState() {
@@ -331,6 +349,74 @@ phoneNumberInput.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("resize", syncExpandedCardState);
+/* ---------- Premium Card Animation ---------- */
+
+let shineTargetX = 50;
+let shineTargetY = 40;
+
+let shineCurrentX = 50;
+let shineCurrentY = 40;
+
+window.addEventListener("scroll", () => {
+
+    const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    const progress =
+        maxScroll <= 0 ? 0 : window.scrollY / maxScroll;
+
+    shineTargetX = 25 + progress * 50;
+    shineTargetY = 35 + progress * 20;
+
+});
+
+function animatePremiumCard(){
+
+    shineCurrentX +=
+        (shineTargetX-shineCurrentX)*0.08;
+
+    shineCurrentY +=
+        (shineTargetY-shineCurrentY)*0.08;
+
+    flipCard.style.setProperty(
+        "--shine-x",
+        `${shineCurrentX}%`
+    );
+
+    flipCard.style.setProperty(
+        "--shine-y",
+        `${shineCurrentY}%`
+    );
+
+    requestAnimationFrame(
+        animatePremiumCard
+    );
+
+}
+
+animatePremiumCard();
+setInterval(()=>{
+
+    shineTargetX=
+        60+
+        Math.random()*30;
+
+    shineTargetY=
+        30+
+        Math.random()*18;
+
+},3500);
+
+window.addEventListener("scroll",()=>{
+
+    const move=
+        Math.min(window.scrollY*0.03,10);
+
+    cardStage.style.transform=
+        `translateY(${move}px)`;
+
+});
 
 (async function initialize() {
   await fetchConfig();
