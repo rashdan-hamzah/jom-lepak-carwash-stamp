@@ -218,7 +218,7 @@ async function lookupCustomer() {
   }
 
   try {
-    setSyncStatus("Looking up customer from Sheets...");
+    setSyncStatus("Sedang mencari nama anda di sistem kami...");
     const response = await fetch(apiUrl("/customer", Object.fromEntries(params.entries())));
     const payload = await response.json();
 
@@ -234,7 +234,7 @@ async function lookupCustomer() {
     return null;
   } catch (error) {
     console.warn("Lookup failed.", error);
-    setSyncStatus("Sheet lookup failed. You can still continue and sync later.");
+    setSyncStatus("Pastikan phone no adalah tepat Eg. 0123456789. Sila hubungi kami jika anda hadapi masalah");
     return null;
   }
 }
@@ -317,7 +317,7 @@ async function hydrateFromSavedCustomer() {
   }
 
   renderStamps();
-  setSyncStatus("Enter your phone number to load the latest sheet record.");
+  setSyncStatus("Sila masukkan phone no untuk lihat JLCW card anda.");
 }
 
 flipCard.addEventListener("click", () => {
