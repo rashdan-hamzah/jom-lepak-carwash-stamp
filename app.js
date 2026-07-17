@@ -1,5 +1,5 @@
 const appState = {
-  max: 10,
+  max: 9,
   collected: 0,
   customerName: "",
   customerId: "",
@@ -131,11 +131,40 @@ function resetCardShine() {
 
 function renderStamps() {
   stampGrid.innerHTML = "";
-  for (let index = 0; index < appState.max; index += 1) {
+
+for (let index = 0; index < appState.max; index += 1) {
+
+  // Last slot = Reward
+  if (index === appState.max - 1) {
+
+    const reward = document.createElement("div");
+
+    reward.className = "reward-slot";
+
+    if (appState.collected >= appState.max) {
+      reward.classList.add("unlocked");
+    }
+
+    reward.innerHTML = `
+      <img src="nanomist.svg" alt="Nano Mist Reward">
+    `;
+
+    stampGrid.appendChild(reward);
+
+  } else {
+
     const circle = document.createElement("div");
-    circle.className = index < appState.collected ? "stamp-circle filled" : "stamp-circle";
+
+    circle.className =
+      index < appState.collected
+        ? "stamp-circle filled"
+        : "stamp-circle";
+
     stampGrid.appendChild(circle);
+
   }
+
+}
 
   const remaining = Math.max(appState.max - appState.collected, 0);
   const complete = Math.round((appState.collected / appState.max) * 100);
