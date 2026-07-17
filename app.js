@@ -146,8 +146,15 @@ for (let index = 0; index < appState.max; index += 1) {
     }
 
     reward.innerHTML = `
-      <img src="nanomist.svg" alt="Nano Mist Reward">
-    `;
+  <img
+    src="${
+      appState.collected >= appState.max
+        ? 'nanomist-gold.svg'
+        : 'nanomist-grey.svg'
+    }"
+    alt="Nano Mist Reward"
+  >
+`;
 
     stampGrid.appendChild(reward);
 
