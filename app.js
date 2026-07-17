@@ -8,6 +8,7 @@ const appState = {
 };
 
 let typingShakeTimer = null;
+let rewardCelebrated = false;
 
 const flipCard = document.getElementById("flipCard");
 const cardStage = document.getElementById("cardStage");
@@ -129,6 +130,32 @@ function resetCardShine() {
   flipCard.style.setProperty("--shine-opacity", "0.16");
 }
 
+function celebrateReward() {
+
+  confetti({
+    particleCount: 120,
+    spread: 90,
+    origin: { y: 0.6 }
+  });
+
+  setTimeout(() => {
+    confetti({
+      particleCount: 80,
+      angle: 60,
+      spread: 60,
+      origin: { x: 0 }
+    });
+
+    confetti({
+      particleCount: 80,
+      angle: 120,
+      spread: 60,
+      origin: { x: 1 }
+    });
+  }, 250);
+
+}
+
 function renderStamps() {
   stampGrid.innerHTML = "";
 
@@ -180,6 +207,9 @@ for (let index = 0; index < appState.max; index += 1) {
   collectedCount.textContent = String(appState.collected);
   remainingCount.textContent = String(remaining);
   completeCount.textContent = `${complete}%`;
+  if (appState.collected < appState.max) {
+  rewardCelebrated = false;
+}
   cardOwner.textContent = appState.customerName;
   cardCustomerId.textContent = appState.customerId;
   redeemButton.disabled = appState.collected < appState.max;
@@ -357,8 +387,22 @@ async function hydrateFromSavedCustomer() {
 }
 
 flipCard.addEventListener("click", () => {
+
   flipCard.classList.toggle("flipped");
+
   syncExpandedCardState();
+
+  if (
+    flipCard.classList.contains("flipped") &&
+    appState.collected >= appState.max &&
+    !rewardCelebrated
+  ) {
+
+    celebrateReward();
+
+    rewardCelebrated = true;
+  }
+
 });
 
 flipCard.addEventListener("keydown", (event) => {
