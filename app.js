@@ -176,8 +176,8 @@ for (let index = 0; index < appState.max; index += 1) {
   <img
     src="${
       appState.collected >= appState.max
-        ? 'nanomist-gold.svg'
-        : 'nanomist-grey.svg'
+        ? 'nanomist_gold.svg'
+        : 'nanomist_black.svg'
     }"
     alt="Nano Mist Reward"
   >
